@@ -2,13 +2,19 @@
 
 from PIL import Image
 
-path = "C:/Users/brand/Desktop/fulldark.jpg"
-im = Image.open(path)
+try:
+        path = "full.jpg"
+        im = Image.open(path)
 
-baseBox = (670,208,755,372)         #Bounding box for the base of the tower, img size is 85x164
+#If there is no file, print error and exit
+except IOError:
+        print("File not found")
+        raise SystemExit
+
+baseBox = (718,217,731,358)         #Bounding box for the base of the tower
 baseRegion = im.crop(baseBox)   
-baseX = 85
-baseY = 164
+baseX = 731 - 718
+baseY = 358 - 217
 
 baseColor = (42,42,42)
 R = 0
@@ -67,21 +73,21 @@ print("\n")
 print("Color of tower top")
 print(topColor)
 
+
 ####################
 ##Expected Outputs##
 ####################
 
-#Orange Base:   (107,92,87)
+#Orange Base:   (159,77,74)
 #Orange Top:    (235,127,114)
 
-#White Base:    (207,206,204)
+#White Base:    (211,211,207)
 #White Top:     (239,244,244)
 
-#Dark Base:     (73,62,64)
+#Dark Base:     (57,47,50)
 #Dark Top:      (56,44,49)
 
 #What to do next:
-    #Change the base box so it gets values from a section of the tower instead of the whole thing
     #Add color detection to output *Tower is Orange today*
     #Yeet loud and proud
     #Add error detection in case there is no image file present
