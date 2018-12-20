@@ -1,9 +1,14 @@
 #Detects the color of the tower and saves it to variables
 
 from PIL import Image
+from aquireImage import aquireImage
+import time
+
+aquireImage()   #Downloads the image file
+time.sleep(5)
 
 try:
-        path = "full.jpg"
+        path = "tower.jpg"
         im = Image.open(path)
 
 #If there is no file, print error and exit
@@ -90,7 +95,5 @@ print(topColor)
 #What to do next:
     #Add color detection to output *Tower is Orange today*
     #Yeet loud and proud
-    #Add error detection in case there is no image file present
-    #Add the ability to download the image file, maybe create new py file and call it here
     #Turn into a twitter bot that uploads a cropped image of the tower and says the state
     #Implement into the discord server somehow (MUCH LATER LOL)
