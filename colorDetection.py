@@ -5,7 +5,7 @@ from aquireImage import aquireImage
 import time
 
 aquireImage()   #Downloads the image file
-time.sleep(5)
+#time.sleep(5)
 
 try:
         path = "tower.jpg"
@@ -37,9 +37,9 @@ for y in range(baseY):
 
 #Get average color for R,G,and B based on total from loop and amount of pixels in photo
 totalPix = baseX * baseY
-R = R/totalPix
-G = G/totalPix
-B = B/totalPix
+R = int(R/totalPix)
+G = int(G/totalPix)
+B = int(B/totalPix)
 baseColor = (R,G,B)
 
 topBox = (695,139,728,179)
@@ -66,9 +66,9 @@ for y in range(topY):
         #print((R,G,B))
 
 totalPix = topX * topY
-R = R/totalPix
-G = G/totalPix
-B = B/totalPix
+R = int(R/totalPix)
+G = int(G/totalPix)
+B = int(B/totalPix)
 topColor = (R,G,B)
 
 #Prints outputs to console
@@ -77,6 +77,24 @@ print(baseColor)
 print("\n")
 print("Color of tower top")
 print(topColor)
+
+#Write outputs to a file with base being first and top being second
+f = open("data.txt", "w")
+#Write each data point to a new line, maybe make a csv file?
+def writeData(colorTuple):
+        commas = 2
+        for c in colorTuple:
+                #w = int(c)
+                w = str(c)
+                f.write(w)
+                if (commas > 0):
+                        f.write(",")
+                        commas = commas - 1
+                else:
+                        f.write("\n")
+
+writeData(baseColor)
+writeData(topColor)
 
 
 ####################
