@@ -21,7 +21,7 @@ baseRegion = im.crop(baseBox)
 baseX = 731 - 718
 baseY = 358 - 217
 
-baseRegion.show()
+#baseRegion.show()
 
 baseColor = (42,42,42)
 R = 0
@@ -49,7 +49,7 @@ topRegion = im.crop(topBox)
 topX = 33
 topY = 40
 
-topRegion.show()
+#topRegion.show()
 
 topColor = (42,42,42)
 
@@ -72,6 +72,11 @@ R = int(R/totalPix)
 G = int(G/totalPix)
 B = int(B/totalPix)
 topColor = (R,G,B)
+
+#Get a cropped image of the tower for the output
+towerBox = (502,73,930,478)
+outPic = im.crop(towerBox)
+outPic.save('out.jpg')
 
 #Prints outputs to console
 
@@ -180,6 +185,9 @@ if (baseColorName == "Dark"):
         #Dark
 
 #What to do next:
-    #Yeet loud and proud
-    #Turn into a twitter bot that uploads a cropped image of the tower and says the state
-    #Implement into the discord server somehow (MUCH LATER LOL)
+        #Switch to VS community
+        #Fix file path for output image in c# script
+        #Make it change the icon for the server
+        #Yeet loud and proud
+        #Turn into a twitter bot that uploads a cropped image of the tower and says the state
+        #Implement into the discord server somehow (MUCH LATER LOL)
