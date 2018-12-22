@@ -8,7 +8,7 @@ aquireImage()   #Downloads the image file
 #time.sleep(5)
 
 try:
-        path = "fullorange.jpg"
+        path = "tower.jpg"
         im = Image.open(path)
 
 #If there is no file, print error and exit
