@@ -150,18 +150,22 @@ else:
 
 #Output the color of the tower to console and a file
 if (topColorName == "White"):
+        outText = "The tower is white today!"
         print("The tower is white today!")
         f.write("1,1")
 
 if (topColorName == "Orange" and baseColorName == "White"):
+        outText = "The tower is orange and white today!"
         print("The tower is orange and white today!")
         f.write("0,1")
 
 if (baseColorName == "Orange"):
+        outText = "The tower is orange today!"
         print("The tower is orange today!")
         f.write("0,0")
 
 if (baseColorName == "Dark"):
+        outText = "The tower is dark today"
         print("The tower is dark today")
         f.write("2,2")
 
