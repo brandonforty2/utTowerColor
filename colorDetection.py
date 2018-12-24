@@ -4,7 +4,7 @@ from PIL import Image
 from aquireImage import aquireImage
 import time
 
-aquireImage()   #Downloads the image file
+#aquireImage()   #Downloads the image file
 #time.sleep(5)
 
 try:
@@ -53,10 +53,10 @@ topY = 40
 
 topColor = (42,42,42)
 
+
 R = 0
 B = 0
 G = 0
-
 
 for y in range(topY):
     for x in range(topX):
@@ -72,6 +72,37 @@ R = int(R/totalPix)
 G = int(G/totalPix)
 B = int(B/totalPix)
 topColor = (R,G,B)
+
+#Calculate color of the sky to determine if its night
+skyBox = (0,0,200,200)
+skyRegion = im.crop(skyBox)   
+skyX = 200
+skyY = 200
+
+#skyRegion.show()
+
+skyColor = (42,42,42)
+R = 0
+G = 0
+B = 0
+
+#Check each pixel and see what color it is, then add it to a total for each color
+for y in range(skyY):     
+    for x in range(skyX):
+        color = skyRegion.getpixel((x,y))
+
+        R = R + color[0]
+        G = G + color[1]
+        B = B + color[2]
+
+#Get average color for R,G,and B based on total from loop and amount of pixels in photo
+totalPix = skyX * skyY
+R = int(R/totalPix)
+G = int(G/totalPix)
+B = int(B/totalPix)
+skyColor = (R,G,B)
+
+#print(skyColor)
 
 #Get a cropped image of the tower for the output
 towerBox = (502,73,930,478)
@@ -105,8 +136,16 @@ def writeData(colorTuple):
 #writeData(topColor)
 
 #Figure out the actual color of the tower
+skyTotal = 0
 
-if (100 < baseColor[0] < 200):
+for c in skyColor:
+        skyTotal += c
+
+if (skyTotal > 250):
+        baseColorName = "Nothing"
+        baseColorNumber = "3"
+
+elif (100 < baseColor[0] < 200):
         if (50 < baseColor[1] < 150):
                 if (50 < baseColor[2] < 150):
                         baseColorName = "Orange"
@@ -149,25 +188,35 @@ else:
 #print("The tower is " + baseColorName + " today!")
 
 #Output the color of the tower to console and a file
-if (topColorName == "White"):
+if (baseColorName == "Nothing"):
+        outText = "The tower is not lit yet"
+        print(outText)
+        f.write("3,3")
+
+elif (topColorName == "White"):
         outText = "The tower is white today!"
         print("The tower is white today!")
         f.write("1,1")
 
-if (topColorName == "Orange" and baseColorName == "White"):
+elif (topColorName == "Orange" and baseColorName == "White"):
         outText = "The tower is orange and white today!"
         print("The tower is orange and white today!")
         f.write("0,1")
 
-if (baseColorName == "Orange"):
+elif (baseColorName == "Orange"):
         outText = "The tower is orange today!"
         print("The tower is orange today!")
         f.write("0,0")
 
-if (baseColorName == "Dark"):
+elif (baseColorName == "Dark"):
         outText = "The tower is dark today"
         print("The tower is dark today")
         f.write("2,2")
+
+elif (baseColorName == "Unknown"):
+        outText = "Error: Uknown tower color"
+        print(outText)
+        f.write(-1,-1)
 
 ####################
 ##Expected Outputs##
@@ -181,6 +230,9 @@ if (baseColorName == "Dark"):
 
 #Dark Base:     (57,47,50)
 #Dark Top:      (56,44,49)
+
+#Bright Sky:    (194,210,232)
+#Dark Sky:      (32,30,51)
 
 #Tower can be:
         #White

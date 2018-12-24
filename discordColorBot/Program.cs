@@ -27,18 +27,28 @@ namespace discordColorBot
 
             
 
+            
+
 
         async Task MessageReceived(SocketMessage message)
             {
+                string messageText;
+                
                 if (message.Content == "!towercolor")
                 {
-                    string strCmdText;
-                    strCmdText = @"py ..\colorDetection.py";
-                    System.Diagnostics.Process.Start("CMD.exe", strCmdText);
+
+
+                    //Run the python script without starting a CMD instance
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = @"py ..\colorDetection.py";
+                    process.StartInfo = startInfo;
+                    process.Start();
 
                     string colorData = File.ReadAllText(@"C: \Users\brand\Documents\Programming\utTowerColor\data.txt");
                     //await message.Channel.SendMessageAsync("Command Recieved");
-                    string messageText;
 
                     if (colorData == "0,0")
                     {
@@ -60,6 +70,11 @@ namespace discordColorBot
                         messageText = "The tower is dark today";
                     }
 
+                    else if (colorData == "3,3")
+                    {
+                        messageText = "The tower is not lit yet";
+                    }
+
                     else
                     {
                         messageText = "Sorry, I do not know what color the tower is";
@@ -67,6 +82,16 @@ namespace discordColorBot
 
                     //await message.Channel.SendMessageAsync(messageText);
                     await message.Channel.SendFileAsync(@"C: \Users\brand\Documents\Programming\utTowerColor\out.jpg", messageText);
+                } 
+
+                if (message.Content == "!updateicon")
+                {
+                    var user = message.User as SocketGuildUser;
+                    var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Founder");
+                    if (!userName.Roles.Contains(role))
+                    {
+
+                    }
                 }
                 
 
