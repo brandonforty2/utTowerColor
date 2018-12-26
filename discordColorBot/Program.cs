@@ -22,7 +22,7 @@ namespace discordColorBot
             client = new DiscordSocketClient();
             commands = new CommandService();
 
-            string token = File.ReadAllText(@"C: \Users\brand\Documents\Programming\utTowerColor\discordColorBot\apikey.txt");
+            string token = File.ReadAllText("apikey.txt");
 
             services = new ServiceCollection()
                     .BuildServiceProvider();

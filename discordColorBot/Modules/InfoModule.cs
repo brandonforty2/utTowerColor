@@ -3,6 +3,8 @@ using Discord;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
+using System;
 
 namespace discordColorBot.Modules
 {
@@ -21,7 +23,7 @@ namespace discordColorBot.Modules
         {
             await Context.Channel.SendMessageAsync("Pong!");
         }
-
+        /*
         [Command("updateicon")]
         public async Task UpdateIcon([Summary("Updates the tower icon based on the tower's color")] string yeet = null)
         {
@@ -32,21 +34,39 @@ namespace discordColorBot.Modules
 
             }
         }
-
+        */
         [Command("towercolor")]
         public async Task TowerColor([Summary("Provides current color of tower")] string yeet = null)
         {
+            Console.WriteLine("towercolor recieved");
+            /*
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = @"py ..\colorDetection.py";
+            startInfo.Arguments = @"py colorDetection.py";
             process.StartInfo = startInfo;
             process.Start();
+            */
+
+            
+            //Run colorDetection on pi command line
+            Process proc = new Process();
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+
+            proc.StartInfo.FileName = "python3";
+            proc.StartInfo.Arguments = "colorDetection.py";
+
+            proc.Start();
+            
 
             string messageText = "";
 
-            string colorData = File.ReadAllText(@"C: \Users\brand\Documents\Programming\utTowerColor\data.txt");
+            //string colorData = File.ReadAllText(@"C: \Users\brand\Documents\Programming\utTowerColor\data.txt");
+            string colorData = File.ReadAllText("data.txt");
+            Console.WriteLine(colorData);
+            
             //await message.Channel.SendMessageAsync("Command Recieved");
 
             if (colorData == "0,0")
@@ -79,11 +99,23 @@ namespace discordColorBot.Modules
                 messageText = "Sorry, I do not know what color the tower is";
             }
 
-            //await message.Channel.SendMessageAsync(messageText);
-            await Context.Channel.SendFileAsync(@"C: \Users\brand\Documents\Programming\utTowerColor\out.jpg", messageText);
+            Console.WriteLine(messageText);
+
+            await Context.Channel.SendMessageAsync(messageText);
+            //await Context.Channel.SendFileAsync("out.jpg", messageText);
+            //await Context.Channel.SendFileAsync("out.jpg");
+            
         }
 
-        
+        [Command("time")]
+        public async Task Time([Summary("Says Pong!")] string yeet = null)
+        {
+            string currentTime = DateTime.Now.ToString("h:mm tt");
+            string messageText = "It is " + currentTime + " and OU still sucks!";
+            await Context.Channel.SendMessageAsync(messageText);
+        }
+
+
     }
 }
 
